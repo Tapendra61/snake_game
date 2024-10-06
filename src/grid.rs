@@ -6,17 +6,19 @@ pub struct Grid {
     pub cells: Vec<Vec<(i32, i32)>>,
     cell_count: i32,
     cell_size: i32,
+    cell_spacing: i32,
     grid_color: Color,
     draw_grid: bool,
 }
 
 impl Grid {
-    pub fn new(grid_size: f32, cell_count: i32, grid_color: Color, draw_grid: bool) -> Self {
+    pub fn new(grid_size: f32, cell_count: i32, cell_spacing: i32, grid_color: Color, draw_grid: bool) -> Self {
         Grid {
             grid_size,
             cells: Vec::new(),
             cell_count,
             cell_size: 0,
+            cell_spacing,
             grid_color,
             draw_grid,
         }.build()
@@ -41,9 +43,10 @@ impl Grid {
 
     pub fn draw(&self) {
 		if self.draw_grid {
+            let draw_offset = (self.cell_size / 2) - self.cell_spacing;
             for row in &self.cells {
                 for position in row {
-                    draw_rectangle((position.0 - 4) as f32, (position.1 - 4) as f32, 8.0, 8.0, self.grid_color);
+                    draw_rectangle((position.0 - draw_offset) as f32, (position.1 - draw_offset) as f32, (self.cell_size - (self.cell_spacing * 2)) as f32, (self.cell_size - (self.cell_spacing * 2)) as f32, self.grid_color);
                 }
             }
         }

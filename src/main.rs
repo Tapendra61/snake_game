@@ -5,11 +5,12 @@ pub mod window;
 
 #[macroquad::main("Snake")]
 async fn main() {
-    let window_props = window::Window::new(400.0, 400.0, Color::new(0.8, 0.8, 0.8, 1.0));
+    let window_props = window::Window::new(720.0, 720.0, Color::new(0.5, 0.5, 0.5, 1.0));
     let grid_handler = grid::Grid::new(
         window_props.width,
-        10,
-        Color::new(0.3, 0.3, 0.3, 1.0),
+        20,
+        2,
+        Color::new(0.6, 0.6, 0.6, 1.0),
         true,
     );
 
