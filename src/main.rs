@@ -1,11 +1,12 @@
 use macroquad::prelude::*;
 
 pub mod grid;
+pub mod snake;
 pub mod window;
-
 #[macroquad::main("Snake")]
 async fn main() {
-    let window_props = window::Window::new(720.0, 720.0, Color::new(0.5, 0.5, 0.5, 1.0));
+    let window_props = window::Window::new(720.0, 720.0, Color::new(0.45, 0.45, 0.45, 1.0));
+    request_new_screen_size(window_props.width, window_props.height);
     let grid_handler = grid::Grid::new(
         window_props.width,
         20,
@@ -14,13 +15,12 @@ async fn main() {
         true,
     );
 
-    println!("{:?}", grid_handler.cells);
-
-    request_new_screen_size(window_props.width, window_props.height);
+    let snake_handler = snake::Snake::new(&grid_handler);
 
     loop {
         clear_background(window_props.clear_color);
-		grid_handler.draw();
+        grid_handler.draw();
+        snake_handler.draw(&grid_handler);
         next_frame().await
     }
 }

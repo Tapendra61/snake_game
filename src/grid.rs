@@ -5,14 +5,20 @@ pub struct Grid {
     grid_size: f32,
     pub cells: Vec<Vec<(i32, i32)>>,
     cell_count: i32,
-    cell_size: i32,
-    cell_spacing: i32,
+    pub cell_size: i32,
+    pub cell_spacing: i32,
     grid_color: Color,
     draw_grid: bool,
 }
 
 impl Grid {
-    pub fn new(grid_size: f32, cell_count: i32, cell_spacing: i32, grid_color: Color, draw_grid: bool) -> Self {
+    pub fn new(
+        grid_size: f32,
+        cell_count: i32,
+        cell_spacing: i32,
+        grid_color: Color,
+        draw_grid: bool,
+    ) -> Self {
         Grid {
             grid_size,
             cells: Vec::new(),
@@ -21,18 +27,19 @@ impl Grid {
             cell_spacing,
             grid_color,
             draw_grid,
-        }.build()
+        }
+        .build()
     }
 
     fn build(mut self) -> Self {
         self.cell_size = (self.grid_size / self.cell_count as f32) as i32;
-        
-        let mut pos:(i32, i32) = (0, 0);
+
+        let mut pos: (i32, i32) = (0, 0);
         for j in 0..self.cell_count {
             let mut row: Vec<(i32, i32)> = Vec::new();
             for i in 0..self.cell_count {
-                pos.0 = ((i * self.cell_size) + self.cell_size) - (self.cell_size/2);
-                pos.1 = ((j * self.cell_size) + self.cell_size) - (self.cell_size/2);
+                pos.0 = ((i * self.cell_size) + self.cell_size) - (self.cell_size / 2);
+                pos.1 = ((j * self.cell_size) + self.cell_size) - (self.cell_size / 2);
 
                 row.push(pos);
             }
@@ -42,13 +49,19 @@ impl Grid {
     }
 
     pub fn draw(&self) {
-		if self.draw_grid {
+        if self.draw_grid {
             let draw_offset = (self.cell_size / 2) - self.cell_spacing;
             for row in &self.cells {
                 for position in row {
-                    draw_rectangle((position.0 - draw_offset) as f32, (position.1 - draw_offset) as f32, (self.cell_size - (self.cell_spacing * 2)) as f32, (self.cell_size - (self.cell_spacing * 2)) as f32, self.grid_color);
+                    draw_rectangle(
+                        (position.0 - draw_offset) as f32,
+                        (position.1 - draw_offset) as f32,
+                        (self.cell_size - (self.cell_spacing * 2)) as f32,
+                        (self.cell_size - (self.cell_spacing * 2)) as f32,
+                        self.grid_color,
+                    );
                 }
             }
         }
-	}
+    }
 }
