@@ -1,8 +1,9 @@
 use macroquad::color::Color;
+use macroquad::shapes::*;
 
 pub struct Grid {
     grid_size: f32,
-    cells: Vec<Vec<(i32, i32)>>,
+    pub cells: Vec<Vec<(i32, i32)>>,
     cell_count: i32,
     cell_size: i32,
     grid_color: Color,
@@ -40,7 +41,11 @@ impl Grid {
 
     pub fn draw(&self) {
 		if self.draw_grid {
-
+            for row in &self.cells {
+                for position in row {
+                    draw_rectangle((position.0 - 4) as f32, (position.1 - 4) as f32, 8.0, 8.0, self.grid_color);
+                }
+            }
         }
 	}
 }

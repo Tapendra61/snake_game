@@ -5,13 +5,15 @@ pub mod window;
 
 #[macroquad::main("Snake")]
 async fn main() {
-    let window_props = window::Window::new(100.0, 100.0, Color::new(0.8, 0.8, 0.8, 1.0));
+    let window_props = window::Window::new(400.0, 400.0, Color::new(0.8, 0.8, 0.8, 1.0));
     let grid_handler = grid::Grid::new(
         window_props.width,
         10,
         Color::new(0.3, 0.3, 0.3, 1.0),
         true,
     );
+
+    println!("{:?}", grid_handler.cells);
 
     request_new_screen_size(window_props.width, window_props.height);
 
