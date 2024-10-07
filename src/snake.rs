@@ -1,8 +1,9 @@
 use ::std::collections::*;
-use macroquad::{color::Color, shapes::draw_rectangle};
+use macroquad::{color::Color, input::*, shapes::draw_rectangle};
 
 use crate::grid::Grid;
 
+#[derive(PartialEq, Clone, Copy)]
 pub struct Link {
     pos: (i32, i32),
     link_color: Color,
@@ -10,7 +11,7 @@ pub struct Link {
 
 pub struct Snake {
     links: LinkedList<Link>,
-    move_direction: (i32, i32),
+    pub move_direction: (i32, i32),
 }
 
 impl Snake {
@@ -27,9 +28,43 @@ impl Snake {
             pos: (0, 0),
             link_color: Color::new(0.2, 0.2, 0.2, 1.0),
         };
+		
         self.links.push_front(head);
         self
     }
+
+	pub fn handle_input (&mut self) {
+		if is_key_pressed(KeyCode::W) {
+			if self.move_direction != (1, 0) {
+				self.move_direction = (-1, 0);
+			}
+		}
+		if is_key_pressed(KeyCode::S) {
+			if self.move_direction != (-1, 0) {
+				self.move_direction = (1, 0);
+			}
+		}
+		if is_key_pressed(KeyCode::D) {
+			if self.move_direction != (0, -1) {
+				self.move_direction = (0, 1);
+			}
+		}
+		if is_key_pressed(KeyCode::A) {
+			if self.move_direction != (0, 1) {
+				self.move_direction = (0, -1);
+			}
+		}
+	}
+
+	pub fn update_position(&mut self, gird: &Grid) {
+		let front = self.links.front().copied().unwrap();
+		for link in &mut self.links {
+			if *link == front {
+				link.pos.0 = (link.pos.0 + self.move_direction.0).rem_euclid(gird.cells.len() as i32);
+				link.pos.1 = (link.pos.1 + self.move_direction.1).rem_euclid(gird.cells.len() as i32);
+			}
+		}
+	}
 
     pub fn draw(&self, grid: &Grid) {
         let draw_offset = (grid.cell_size / 2) - grid.cell_spacing;

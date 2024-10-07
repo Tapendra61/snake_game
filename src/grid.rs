@@ -64,4 +64,13 @@ impl Grid {
             }
         }
     }
+
+    pub fn debug_grid (&self) {
+        for row in &self.cells {
+            for cells in row {
+                print!("{:?} ", cells);
+            }
+            print!("\n");
+        }
+    }
 }

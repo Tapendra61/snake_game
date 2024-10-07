@@ -15,12 +15,21 @@ async fn main() {
         true,
     );
 
-    let snake_handler = snake::Snake::new(&grid_handler);
-
+    let mut snake_handler = snake::Snake::new(&grid_handler);
+    let mut draw_time:f32 = 0.0;
     loop {
         clear_background(window_props.clear_color);
         grid_handler.draw();
         snake_handler.draw(&grid_handler);
+        snake_handler.handle_input();
+
+        if draw_time >= 0.125 {
+            snake_handler.update_position(&grid_handler);
+            draw_time = 0.0;
+        }else {
+            draw_time += get_frame_time();
+        }
+        
         next_frame().await
     }
 }
