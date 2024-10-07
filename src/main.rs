@@ -3,6 +3,8 @@ use macroquad::prelude::*;
 pub mod grid;
 pub mod snake;
 pub mod window;
+pub mod food;
+
 #[macroquad::main("Snake")]
 async fn main() {
     let window_props = window::Window::new(720.0, 720.0, Color::new(0.45, 0.45, 0.45, 1.0));

@@ -1,5 +1,6 @@
 use macroquad::color::Color;
 use macroquad::shapes::*;
+use rand::Rng;
 
 pub struct Grid {
     grid_size: f32,
@@ -12,6 +13,8 @@ pub struct Grid {
 }
 
 impl Grid {
+
+    //Initializes and returns a grid
     pub fn new(
         grid_size: f32,
         cell_count: i32,
@@ -31,6 +34,7 @@ impl Grid {
         .build()
     }
 
+    //generate the co-ordinates for the actual grid and stores them in the cells property
     fn build(mut self) -> Self {
         self.cell_size = (self.grid_size / self.cell_count as f32) as i32;
 
@@ -48,6 +52,18 @@ impl Grid {
         self
     }
 
+    //Returns a random co-ordinate on the grid
+    pub fn generate_rand_coordinate (&self) -> (i32, i32) {
+        let mut rand_pos = (0, 0);
+
+        let mut rng = rand::thread_rng();
+        rand_pos.0 = rng.gen_range(0..self.cells.len()) as i32;
+        rand_pos.1 = rng.gen_range(0..self.cells.len()) as i32;
+
+        rand_pos
+    }
+
+    //Draw the grid on screen
     pub fn draw(&self) {
         if self.draw_grid {
             let draw_offset = (self.cell_size / 2) - self.cell_spacing;
@@ -65,6 +81,7 @@ impl Grid {
         }
     }
 
+    //Output the grid on stdout
     pub fn debug_grid (&self) {
         for row in &self.cells {
             for cells in row {

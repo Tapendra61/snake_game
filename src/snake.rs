@@ -15,6 +15,8 @@ pub struct Snake {
 }
 
 impl Snake {
+
+	//Creates a new snake and initializes the head
     pub fn new(grid: &Grid) -> Self {
         Snake {
             links: LinkedList::new(),
@@ -23,16 +25,23 @@ impl Snake {
         .initialize_head(grid)
     }
 
+	//Initialize the head of the snake
     fn initialize_head(mut self, grid: &Grid) -> Self {
         let head = Link {
-            pos: (0, 0),
+            pos: grid.generate_rand_coordinate(),
             link_color: Color::new(0.2, 0.2, 0.2, 1.0),
         };
-		
+
         self.links.push_front(head);
         self
     }
 
+	//Add new links/body parts to the snake
+	pub fn add_link () {
+
+	}
+
+	//Update movement direction based on Key Press
 	pub fn handle_input (&mut self) {
 		if is_key_pressed(KeyCode::W) {
 			if self.move_direction != (1, 0) {
@@ -56,6 +65,7 @@ impl Snake {
 		}
 	}
 
+	//Updates/Moves the snake on the grid based on the direction of the snake
 	pub fn update_position(&mut self, gird: &Grid) {
 		let front = self.links.front().copied().unwrap();
 		for link in &mut self.links {
@@ -66,6 +76,7 @@ impl Snake {
 		}
 	}
 
+	//Draws the snake on the grid
     pub fn draw(&self, grid: &Grid) {
         let draw_offset = (grid.cell_size / 2) - grid.cell_spacing;
         for link in &self.links {
