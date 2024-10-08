@@ -22,7 +22,6 @@ async fn main() {
     loop {
         clear_background(window_props.clear_color);
         grid_handler.draw();
-        snake_handler.draw(&grid_handler);
         snake_handler.handle_input();
 
         if draw_time >= 0.125 {
@@ -32,6 +31,7 @@ async fn main() {
             draw_time += get_frame_time();
         }
         
+        snake_handler.draw(&grid_handler);
         next_frame().await
     }
 }

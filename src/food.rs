@@ -5,7 +5,13 @@ pub struct Food {
 	pub color: Color,
 }
 
-pub struct FoodHandler {
+
+pub struct FoodGenerator {
 	food_exists: bool,
 }
 
+impl FoodGenerator {
+	pub fn new () -> Self {
+		FoodGenerator { food_exists: false }
+	}
+}
