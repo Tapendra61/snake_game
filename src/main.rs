@@ -16,6 +16,7 @@ async fn main() {
         Color::new(0.6, 0.6, 0.6, 1.0),
         true,
     );
+    let mut food_handler = food::FoodGenerator::new();
 
     let mut snake_handler = snake::Snake::new(&grid_handler);
     let mut draw_time:f32 = 0.0;
@@ -23,6 +24,8 @@ async fn main() {
         clear_background(window_props.clear_color);
         grid_handler.draw();
         snake_handler.handle_input();
+        food_handler.generate_food(&grid_handler, &snake_handler);
+        food_handler.draw_food(&grid_handler);
 
         if draw_time >= 0.125 {
             snake_handler.update_position(&grid_handler);
