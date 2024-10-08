@@ -41,6 +41,11 @@ impl Snake {
 
 	}
 
+	//Returns the position of snake's head
+	pub fn head_position (&self) -> (i32, i32) {
+		self.links.front().unwrap().pos
+	}
+
 	//Update movement direction based on Key Press
 	pub fn handle_input (&mut self) {
 		if is_key_pressed(KeyCode::W) {
