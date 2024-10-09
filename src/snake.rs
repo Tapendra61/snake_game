@@ -15,7 +15,6 @@ pub struct Snake {
 }
 
 impl Snake {
-
 	//Creates a new snake and initializes the head
     pub fn new(grid: &Grid) -> Self {
         Snake {
@@ -26,9 +25,9 @@ impl Snake {
     }
 
 	//Initialize the head of the snake
-    fn initialize_head(mut self, grid: &Grid) -> Self {
+    fn initialize_head(mut self, grid_handler: &Grid) -> Self {
         let head = Link {
-            pos: grid.generate_rand_coordinate(),
+            pos: grid_handler.generate_rand_coordinate(),
             link_color: Color::new(0.2, 0.2, 0.2, 1.0),
         };
 
@@ -37,8 +36,25 @@ impl Snake {
     }
 
 	//Add new links/body parts to the snake
-	pub fn add_link () {
+	pub fn add_link (&mut self, grid_handler: &Grid) {
+		let add_direction:(i32, i32);
+		let mut new_position = (0, 0);
+		
+		if self.links.len() == 1 {
+			add_direction = (self.move_direction.0 * -1, self.move_direction.1 * -1);
+			let front = self.links.front().unwrap();
+			new_position = (front.pos.0 + add_direction.1, front.pos.1 + add_direction.0);
+		}
+		else {
 
+		}
+
+		let new_link = Link {
+			pos: new_position,
+			link_color: Color::new(0.2, 0.2, 0.2, 1.0),
+		};
+
+		self.links.push_back(new_link);
 	}
 
 	//Returns the position of snake's head
@@ -71,12 +87,12 @@ impl Snake {
 	}
 
 	//Updates/Moves the snake on the grid based on the direction of the snake
-	pub fn update_position(&mut self, gird: &Grid) {
+	pub fn update_position(&mut self, gird_handler: &Grid) {
 		let front = self.links.front().copied().unwrap();
 		for link in &mut self.links {
 			if *link == front {
-				link.pos.0 = (link.pos.0 + self.move_direction.0).rem_euclid(gird.cells.len() as i32);
-				link.pos.1 = (link.pos.1 + self.move_direction.1).rem_euclid(gird.cells.len() as i32);
+				link.pos.0 = (link.pos.0 + self.move_direction.0).rem_euclid(gird_handler.cells.len() as i32);
+				link.pos.1 = (link.pos.1 + self.move_direction.1).rem_euclid(gird_handler.cells.len() as i32);
 			}
 		}
 	}
