@@ -39,11 +39,12 @@ impl Snake {
 	pub fn add_link (&mut self, grid_handler: &Grid) {
 		let add_direction:(i32, i32);
 		let mut new_position = (0, 0);
-		
+
+		//TODO: Finish adding link if the head is not the only link in the list
 		if self.links.len() == 1 {
 			add_direction = (self.move_direction.0 * -1, self.move_direction.1 * -1);
 			let front = self.links.front().unwrap();
-			new_position = (front.pos.0 + add_direction.1, front.pos.1 + add_direction.0);
+			new_position = (front.pos.0 + add_direction.0, front.pos.1 + add_direction.1);
 		}
 		else {
 
@@ -86,11 +87,15 @@ impl Snake {
 		}
 	}
 
+
+	//TODO: Finish updating positions for links that are not the head in the list
 	//Updates/Moves the snake on the grid based on the direction of the snake
 	pub fn update_position(&mut self, gird_handler: &Grid) {
-		let front = self.links.front().copied().unwrap();
+		let front = self.links.front_mut().unwrap();
+		front.pos.0 =  (front.pos.0 + self.move_direction.0).rem_euclid(gird_handler.cells.len() as i32);
+		front.pos.1 =  (front.pos.1 + self.move_direction.1).rem_euclid(gird_handler.cells.len() as i32);
 		for link in &mut self.links {
-			if *link == front {
+			if link !=  {
 				link.pos.0 = (link.pos.0 + self.move_direction.0).rem_euclid(gird_handler.cells.len() as i32);
 				link.pos.1 = (link.pos.1 + self.move_direction.1).rem_euclid(gird_handler.cells.len() as i32);
 			}
