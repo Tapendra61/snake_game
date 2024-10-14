@@ -91,14 +91,14 @@ impl Snake {
 	//TODO: Finish updating positions for links that are not the head in the list
 	//Updates/Moves the snake on the grid based on the direction of the snake
 	pub fn update_position(&mut self, gird_handler: &Grid) {
-		let front = self.links.front_mut().unwrap();
-		front.pos.0 =  (front.pos.0 + self.move_direction.0).rem_euclid(gird_handler.cells.len() as i32);
-		front.pos.1 =  (front.pos.1 + self.move_direction.1).rem_euclid(gird_handler.cells.len() as i32);
-		for link in &mut self.links {
-			if link !=  {
-				link.pos.0 = (link.pos.0 + self.move_direction.0).rem_euclid(gird_handler.cells.len() as i32);
-				link.pos.1 = (link.pos.1 + self.move_direction.1).rem_euclid(gird_handler.cells.len() as i32);
-			}
+		if let Some(front) = self.links.front_mut() {
+			front.pos.0 =  (front.pos.0 + self.move_direction.0).rem_euclid(gird_handler.cells.len() as i32);
+			front.pos.1 =  (front.pos.1 + self.move_direction.1).rem_euclid(gird_handler.cells.len() as i32);
+		}
+		
+		for link in &mut self.links.iter_mut().skip(1) {
+			link.pos.0 = (link.pos.0 + self.move_direction.0).rem_euclid(gird_handler.cells.len() as i32);
+			link.pos.1 = (link.pos.1 + self.move_direction.1).rem_euclid(gird_handler.cells.len() as i32);
 		}
 	}
 
